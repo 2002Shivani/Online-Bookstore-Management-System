@@ -1,6 +1,7 @@
 package com.bookstore.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.query.Query;
@@ -30,22 +31,22 @@ public class UserService {
 
 	// update user
 
-	public User userUpdate(User user, String email) {
+	public User userUpdate(User user) {
 
-		return dao.userUpdate(user, email);
+		return dao.userUpdate(user);
 	}
 
 	// get all user
-	public Set<User> getAllUser() {
+	public List<User> getAllUser() {
 
 		return dao.getAllUser();
 	}
 
 	// get user by name
 
-	public User getUserByEmail(String email) {
+	public User getUserByEmail(int userId) {
 
-		return dao.getUserByEmail(email);
+		return dao.getUserByEmail(userId);
 	}
 
 	public Set<User> getSpecific(String role) {

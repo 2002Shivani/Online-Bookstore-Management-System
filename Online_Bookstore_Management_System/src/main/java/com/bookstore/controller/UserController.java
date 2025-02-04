@@ -1,5 +1,6 @@
 package com.bookstore.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,22 +46,22 @@ public class UserController {
 	// update user
 
 	@PutMapping("/update")
-	public User userUpdate(@RequestBody User user,@RequestParam String email) {
+	public User userUpdate(@RequestBody User user) {
 
-		return service.userUpdate(user, email);
+		return service.userUpdate(user);
 	}
 
 	// get all user
 	@GetMapping("/getall")
-	public Set<User> getAllUser() {
+	public List<User> getAllUser() {
 		return service.getAllUser();
 	}
 
 	// get user by name
 
 	@GetMapping("/getbyemail")
-	public User getUserByEmail(@RequestParam String email) {
-		return service.getUserByEmail(email);
+	public User getUserByEmail(@RequestParam int userId) {
+		return service.getUserByEmail(userId);
 	}
 
 	@GetMapping("/byrole")

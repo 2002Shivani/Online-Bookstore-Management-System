@@ -1,6 +1,7 @@
 package com.bookstore.dao;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -47,7 +48,7 @@ public class UserDao {
 	public User userLogin(LoginRequest loginRequest) {
 		try {
 			session = factory.openSession();
-			existUser = session.get(User.class, loginRequest.getUserEmail());
+			existUser = session.get(User.class , loginRequest.getUserId());
 			if (existUser != null) {
 				if (existUser.getUserPassword().equals(loginRequest.getUserPassword())) {
 					return existUser;
@@ -63,51 +64,50 @@ public class UserDao {
 
 	// update user
 
-	public User userUpdate(User user, String email) {
+	public User userUpdate(User user) {
 		try {
 			session = factory.openSession();
-			existUser = session.get(User.class, email);
-			existUser.setUserCity(user.getUserCity());
-			existUser.setUserPhone(user.getUserPhone());
-			session.merge(user);
+			session.update(user);
 			session.beginTransaction().commit();
+			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			
 		}
 		return null;
 	}
 
 	// get all user
-	public Set<User> getAllUser() {
-		Set<User> record = new HashSet<User>();
+	public List<User> getAllUser() {
+		List<User> record = null;
 		try {
 
 			session = factory.openSession();
 			String hqlQuery = "from User";
 			Query<User> query = session.createQuery(hqlQuery, User.class);
-			record = (Set<User>) query.getResultList();
+			record = query.getResultList();
+			session.beginTransaction().commit();
 
 		} catch (Exception e) {
 
 		} finally {
-			session.close();
+			
 		}
 		return record;
 	}
 
 	// get user by name
 
-	public User getUserByEmail(String email) {
+	public User getUserByEmail(int userId) {
 		try {
 			session = factory.openSession();
-			existUser = session.get(User.class, email);
+			existUser = session.get(User.class, userId);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+		
 		}
 		return existUser;
 	}
@@ -138,7 +138,7 @@ public class UserDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			
 		}
 
 		return null;
